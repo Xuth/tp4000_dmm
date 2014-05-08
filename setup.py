@@ -44,5 +44,10 @@ setup(
     ],
     include_package_data=True,
     install_requires=requirements,
-    packages=find_packages()
+    packages=find_packages(),
+    entry_points={
+        'console_scripts': [
+            'fs9721 = fs9721.cmdline:main'
+        ]
+    },
 )
