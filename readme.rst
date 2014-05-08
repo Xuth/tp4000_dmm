@@ -13,6 +13,10 @@ Install from Github directly::
     cd python-fs9721
     python setup.py install
 
+or, install from PyPI using ``pip``::
+
+    pip install fs9721
+
 Does this support my multimeter?
 --------------------------------
 
