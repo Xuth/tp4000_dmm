@@ -6,7 +6,7 @@ Installation
 
 Install from Github directly::
     
-    git clone https://github.com/coddingtonbear/python-fs9721.git
+    git clone https://github.com/Xuth/python-fs9721.git
     cd python-fs9721
     python setup.py install
 
