@@ -4,3 +4,6 @@ include/*
 lib/*
 share/*
 .Python
+*.pyc
+build/*
+dist/*

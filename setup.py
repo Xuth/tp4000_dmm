@@ -2,13 +2,18 @@ import os.path
 from setuptools import setup, find_packages
 
 
+from fs9721 import __version__
+
+
 requirements_path = os.path.join(
     os.path.dirname(__file__),
     'requirements.txt',
 )
 try:
     from pip.req import parse_requirements
-    requirements = parse_requirements(requirements_path)
+    requirements = [
+        str(req.req) for req in parse_requirements(requirements_path)
+    ]
 except ImportError:
     requirements = []
     with open(requirements_path, 'r') as in_:
@@ -21,7 +26,7 @@ except ImportError:
 
 setup(
     name='fs9721',
-    version='0.1',
+    version=__version__,
     url='http://github.com/coddingtonbear/python-fs9721/',
     description='',
     author='Adam Coddington',
