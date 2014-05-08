@@ -27,10 +27,10 @@ except ImportError:
 setup(
     name='fs9721',
     version=__version__,
-    url='http://github.com/coddingtonbear/python-fs9721/',
+    url='http://github.com/Xuth/python-fs9721/',
     description='',
-    author='Adam Coddington',
-    author_email='me@adamcoddington.net',
+    author='Xuth, Adam Coddington',
+    author_email='',
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
