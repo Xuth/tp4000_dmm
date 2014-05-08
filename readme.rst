@@ -1,6 +1,8 @@
 Easily gather measurements from your multimeter using the Fortune Semiconductors FS9721_LP3 protocol.
 
-This is all based upon `@xuth <https://github.com/Xuth/tp4000_dmm>`_'s work in his `TP4000ZC library <https://github.com/Xuth/tp4000_dmm>`).
+This is all based upon `@xuth <https://github.com/Xuth/>`_'s work in
+his `TP4000ZC library <https://github.com/Xuth/tp4000_dmm>`_).
+(Don't worry, @xuth, a PR will be incoming once I've finished).
 
 Installation
 ------------
