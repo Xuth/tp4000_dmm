@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import serial
 
 from .value import DmmValue
@@ -152,6 +153,10 @@ class Client(object):
 
         return DmmValue(val, attribs, readAttempt, bytes)
 
+    def getMeasurement(self):
+        value = self.read()
+        return value.getMeasurement()
+
     def _synchronize(self):
         v = self.ser.read(1)
         if len(v) != 1:
@@ -189,20 +194,20 @@ class Client(object):
             ('flags', 'beep')
         ],
         12: [
-            ('measure', 'Farads'),
-            ('measure', 'Ohms'),
+            ('measure', 'F'),
+            ('measure', 'Ω'),
             ('flags', 'REL delta'),
             ('flags', 'Hold')
         ],
         13: [
-            ('measure', 'Amps'),
-            ('measure', 'volts'),
-            ('measure', 'Hertz'),
+            ('measure', 'A'),
+            ('measure', 'V'),
+            ('measure', 'Hz'),
             ('other', 'other_13_1')
         ],
         14: [
             ('other', 'other_14_4'),
-            ('measure', 'degrees Celcius'),
+            ('measure', 'C'),
             ('other', 'other_14_2'),
             ('other', 'other_14_1')
         ]

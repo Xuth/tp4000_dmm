@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+from measurement.base import MeasureBase
+from measurement.measures import (
+    Capacitance,
+    Current,
+    Frequency,
+    Resistance,
+    Temperature,
+    Voltage,
+)
+
+
 class DmmValue(object):
     """
     This is a representation of a single read from the multimeter.
@@ -30,6 +42,17 @@ class DmmValue(object):
        rawBytes:  the raw, 14 byte bitstream that produced this value.
 
     """
+    MEASURE_CLASSES = {
+        # Duty Cycle?
+        # Diode?
+        'F': Capacitance,
+        'Ω': Resistance,
+        'A': Current,
+        'V': Voltage,
+        'Hz': Frequency,
+        'C': Temperature,
+    }
+
     def __init__(self, val, attribs, readErrors, rawBytes):
         self.saneValue = True
         self.rawVal = self.val = val
@@ -46,8 +69,25 @@ class DmmValue(object):
         self.processMeasurement()
         self.processVal()
 
+        self.measurementObject = self.createMeasurementObject()
+
         if self.saneValue:
             self.createTextExpression()
+
+    def getMeasurement(self):
+        return self.measurementObject
+
+    def createMeasurementObject(self):
+        try:
+            return (
+                self.MEASURE_CLASSES[self.measurement](
+                    **{self.measurement: self.numericVal}
+                )
+            )
+        except KeyError:
+            return self.numericVal
+        except (ValueError, TypeError):
+            return None
 
     def createTextExpression(self):
         text = self.deltaText
@@ -77,11 +117,6 @@ class DmmValue(object):
             self.delta = True
             self.deltaText = 'delta '
 
-    scaleTable = {
-        'nano': 0.000000001, 'micro': 0.000001, 'milli': 0.001,
-        'kilo': 1000.0, 'mega': 1000000.0
-    }
-
     def processScale(self):
         s = self.scaleFlags
         self.scale = ''
@@ -93,7 +128,7 @@ class DmmValue(object):
             self.saneValue = False
             return
         self.scale = s[0]
-        self.multiplier = self.scaleTable[self.scale]
+        self.multiplier = MeasureBase.SI_MAGNITUDES[self.scale]
 
     def processMeasurement(self):
         m = self.measurementFlags

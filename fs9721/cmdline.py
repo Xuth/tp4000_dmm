@@ -20,9 +20,8 @@ def main():
     dmm = Client(port=args.port[0], retries=args.retries, timeout=args.timeout)
 
     while True:
-        val = dmm.read()
-        print val.text
-        print val.numericVal
+        val = dmm.getMeasurement()
+        print val
 
 # main hook
 if __name__ == "__main__":
