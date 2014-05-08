@@ -1,0 +1,9 @@
+bin/*
+*egg-info*
+include/*
+lib/*
+share/*
+.Python
+*.pyc
+build/*
+dist/*

@@ -1,0 +1,4 @@
+measurement>=1.7.1
+pyserial>=2.7
+argparse>=1.2.1
+six
