@@ -1,1 +1,2 @@
 measurement>=1.6
+pyserial==2.7
