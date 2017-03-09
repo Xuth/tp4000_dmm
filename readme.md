@@ -48,7 +48,7 @@ class Dmm:
        * I made a coding error (whatever python might throw)
 
     If no exceptions are raised the DmmValue might still fail various sanity
-    checks or not have a numeric value.  Ie I believe that showing showing 
+    checks or not have a numeric value.  Ie I believe that showing 
     multiple decimal points makes no sense but is valid per the protocol so
     no exception is raised but the saneValue flag will be set to False in the
     DmmValue.
@@ -62,7 +62,7 @@ class Dmm:
     Each data bit represents an individual field on the LCD display of the meter, 
     from segments of the 7 segment digits to individual flags.  Bytes 1 and 10-14
     are flags (with four bits reserved/unmapped on this meter) and bytes (2,3), 
-    (4,5), (5,6) and (7,8) representing the individual digits on the display.
+    (4,5), (6,7) and (8,9) representing the individual digits on the display.
 
     For the digits, if the high bit of the first nibble of a digit is set then the
     negative sign (for the first digit) or the leading decimal point is turned on.
@@ -78,7 +78,7 @@ class Dmm:
      p     p      'L'.
      o     o
      s     s
-     1     5
+     3     5
       pos 4
 
     Serial settings for this meter are:
