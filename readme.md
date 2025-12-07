@@ -4,6 +4,10 @@ class Dmm:
     the TekPower TP4000ZC (the meter I own) and supposedly is the same as the the
     'VC820' mode in QtDMM.
 
+    Another meter that this apparently works with is:
+
+    HoldPeak DMM HP-90EPC
+
     example code:
 
     # load the module
@@ -20,10 +24,10 @@ class Dmm:
     # read a value
     val = dmm.read()
     
-    print val.text       # print the text representation of the value
-                         # something like: -4.9 millivolts DC
-    print val.numericVal # and the numeric value
-                         # ie: -0.0048
+    print (val.text)       # print the text representation of the value
+                           # something like: -4.9 millivolts DC
+    print (val.numericVal) # and the numeric value
+                           # ie: -0.0048
     # recycle the serial port
     dmm.close()
 
@@ -69,7 +73,7 @@ class Dmm:
     the remaining bits of the two nibbles represent the elements of the 7 segment
     digit display as follows:
 
-      pos 1       nibble 1:   S123
+      pos 3       nibble 1:   S123
      p     p      nibble 2:   4567
      o     o      where S is either the sign or decimal bit.
      s     s
@@ -78,7 +82,7 @@ class Dmm:
      p     p      'L'.
      o     o
      s     s
-     3     5
+     1     5
       pos 4
 
     Serial settings for this meter are:
