@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# copyright Jim Leonard (Xuth)
+# MIT license
+
 import serial
 
 
@@ -72,7 +76,7 @@ class Dmm:
     the remaining bits of the two nibbles represent the elements of the 7 segment
     digit display as follows:
 
-      pos 1       nibble 1:   S123
+      pos 3       nibble 1:   S123
      p     p      nibble 2:   4567
      o     o      where S is either the sign or decimal bit.
      s     s
@@ -112,14 +116,15 @@ class Dmm:
         # first get a set of bytes and validate it.
         # if the first doesn't validate, synch and get a new set.
         success = False
-        for readAttempt in xrange(self.retries):
-            bytes = self.ser.read(self.bytesPerRead)
-            if len(bytes) != self.bytesPerRead:
+        for readAttempt in range(self.retries):
+            data = self.ser.read(self.bytesPerRead)
+            if len(data) != self.bytesPerRead:
                 self._synchronize()
                 continue
 
-            for pos, byte in enumerate(bytes, start=1):
-                if ord(byte) // 16 != pos:
+            for pos, byte in enumerate(data, start=1):
+                # in Python3 indexing a bytes object yields an int
+                if byte // 16 != pos:
                     self._synchronize()
                     break
             else:
@@ -134,24 +139,24 @@ class Dmm:
         
 
         val = ''
-        for (d1,d2,ch) in self.digits:
-            highBit, digit = self._readDigit(bytes[d1-1], bytes[d2-1])
+        for (d1, d2, ch) in self.digits:
+            highBit, digit = self._readDigit(data[d1 - 1], data[d2 - 1])
             if highBit:
                 val = val + ch
             val = val + digit
 
         attribs = self._initAttribs()
-        for k,v in self.bits.items():
-            self._readAttribByte(bytes[k-1], v, attribs)
+        for k, v in self.bits.items():
+            self._readAttribByte(data[k-1], v, attribs)
 
-        return DmmValue(val, attribs, readAttempt, bytes)
-                            
+        return DmmValue(val, attribs, readAttempt, data)
 
     def _synchronize(self):
         v = self.ser.read(1)
         if len(v) != 1:
             raise DmmNoData()
-        n = ord(v)
+        # v is a bytes object of length 1; indexing gives an int
+        n = v[0]
         pos = n // 16
         if pos == 0 or pos == 15:
             raise DmmInvalidSyncValue()
@@ -186,24 +191,26 @@ class Dmm:
         return {'flags':[], 'scale':[], 'measure':[], 'other':[]}
 
     def _readAttribByte(self, byte, bits, attribs):
-        b = ord(byte) % 16
+        # byte is int in Python3 when indexing a bytes object
+        b = byte % 16
         bitVal = 8
         for (attr, val) in bits:
             v = b // bitVal
             if v:
                 b = b - bitVal
-                #print "adding flag type %s, val %s"%(attr, val)
+                # print("adding flag type %s, val %s" % (attr, val))
                 attribs[attr].append(val)
             bitVal //= 2
 
     def _readDigit(self, byte1, byte2):
-        b1 = ord(byte1) % 16
+        # byte1 and byte2 are ints
+        b1 = byte1 % 16
         highBit = b1 // 8
         b1 = b1 % 8
-        b2 = ord(byte2) % 16
+        b2 = byte2 % 16
         try:
-            digit = self.digitTable[(b1,b2)]
-        except:
+            digit = self.digitTable[(b1, b2)]
+        except Exception:
             digit = 'X'
         return highBit, digit
             
@@ -322,7 +329,7 @@ class DmmValue:
         n = None
         try:
             n = float(v)
-        except:
+        except Exception:
             pass
 
         if n is not None:
@@ -333,7 +340,7 @@ class DmmValue:
         return "<DmmValue instance: %s>"%self.text
 
 
-class DmmException:
+class DmmException(Exception):
     "Base exception class for Dmm."
 
 class DmmNoData(DmmException):
@@ -351,8 +358,9 @@ def main():
 
     while True:
         val = dmm.read()
-        print val.text
-        print val.numericVal
+        print(val.text)
+        print(val.numericVal)
+
 
 # main hook
 if __name__ == "__main__":
