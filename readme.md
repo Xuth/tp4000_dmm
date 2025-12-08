@@ -4,7 +4,7 @@ the TekPower TP4000ZC (the meter I own) and supposedly is the same as the the
 
 It looks like the DMM chipset that implements this protocol is the Fortune Semiconductor FS9721_LP3.
 
-Based on other sources, it looks like the following meters use this protocol (I've tested none of them):
+Based on other sources, it looks like the following other meters use this protocol (I've tested none of them):
 
     * HoldPeak DMM HP-90EPC
     * Digitek DT4000ZC
