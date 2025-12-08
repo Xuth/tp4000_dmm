@@ -1,12 +1,25 @@
+Takes readings off the serial port from a class of multimeters that includes
+the TekPower TP4000ZC (the meter I own) and supposedly is the same as the the
+'VC820' mode in QtDMM.
+
+It looks like the DMM chipset that implements this protocol is the Fortune Semiconductor FS9721_LP3.
+
+Based on other sources, it looks like the following meters use this protocol (I've tested none of them):
+
+    * HoldPeak DMM HP-90EPC
+    * Digitek DT4000ZC
+    * PCE PCE-DM32
+    * Tecpel DMM-8061
+    * UNI-T UT60E
+    * Voltcraft VC-820
+    * Voltcraft VC-840
+
+
 class Dmm:
     """
     Takes readings off the serial port from a class of multimeters that includes
     the TekPower TP4000ZC (the meter I own) and supposedly is the same as the the
     'VC820' mode in QtDMM.
-
-    Another meter that this apparently works with is:
-
-    HoldPeak DMM HP-90EPC
 
     example code:
 
